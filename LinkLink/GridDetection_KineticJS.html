@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+</head>
+
+<body>
+	<div id="gameDiv"></div>
+	<script src="js/LinkLink/kinetic-v4.1.2.min.js"></script>
+    <script>
+		var stage = new Kinetic.Stage({
+			container: "gameDiv",
+			width: 500,
+			height: 500
+		});
+		var layer = new Kinetic.Layer();
+		var messagelayer = new Kinetic.Layer();
+		
+		var grid = [
+			[2,2,1,3,1],
+			[0,1,2,1,1],
+			[1,1,2,3,0],
+			[0,3,2,0,2],
+			[3,1,0,1,1]
+		];
+		
+		var prevRect = null;
+		var row = grid.length;	// Number of Rows
+		var col = grid[0].length; // Numbers of Columns
+		var width = stage.getWidth()  / col;	// Single Cell Width
+		var height = stage.getHeight() / row;	// Single Cell Height
+		
+		var rectArr = new Array();
+		
+		for (r=0; r<row; ++r){
+			rectArr[r] = new Array();
+			for (c=0; c<col; ++c){
+				var rect = new Kinetic.Rect({
+					x: width*c,
+					y: height*r,
+					width: width,
+					height: height,
+					stroke: "black",
+					strokeWidth: 1,
+					draggable: false
+				});
+				
+				rect.on("mousemove", function(){
+					var mousePos = stage.getMousePosition();
+					writeMessage(messagelayer, 'x: ' + mousePos.x + ', y: ' + mousePos.y);
+				});
+				
+				rect.on("click", function(){
+					if (prevRect == null){
+						prevRect = this;	
+					} else {
+						prevRect.setOpacity(0);
+						this.setOpacity(0);
+						prevRect = null;
+					}
+					drawGrid(this);	
+				});
+				
+				rectArr[r][c] = rect;
+				layer.add(rect);
+			}
+		}
+		drawGrid(null);
+		
+		function drawGrid(cellRect){
+			selRect = cellRect;
+			for (r=0; r<row; ++r){
+				for (c=0; c<col; ++c){
+					switch (grid[r][c])
+					{
+						case 1: rectArr[r][c].setFill("yellow"); break;
+						case 2: rectArr[r][c].setFill("purple"); break;
+						case 3: rectArr[r][c].setFill("red"); break;
+						default: rectArr[r][c].setFill("white"); break;
+					}
+				}
+			}
+			if (selRect != null){
+				selRect.setFill("green");
+			}
+			layer.draw();
+		}
+		
+		function writeMessage(messageLayer, message) {
+			var context = messageLayer.getContext();
+			messageLayer.clear();
+			context.font = '18pt Calibri';
+			context.fillStyle = 'black';
+			context.fillText(message, 10, 25);
+		}
+		
+		stage.add(layer);
+		stage.add(messagelayer);		
+	</script>
+</body>
+</html>
