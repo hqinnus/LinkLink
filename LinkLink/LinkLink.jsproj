@@ -55,6 +55,7 @@
     </AppxManifest>
     <Content Include="css\LinkLink\matchgame.css" />
     <Content Include="default.html" />
+    <Content Include="GridDetection_KineticJS.html" />
     <Content Include="images\bg.jpg" />
     <Content Include="images\deck.png" />
     <Content Include="images\logo.png" />
@@ -66,6 +67,11 @@
     <Content Include="css\default.css" />
     <Content Include="js\LinkLink\html5games.matchgame.js" />
     <Content Include="js\LinkLink\jquery-1.6.min.js" />
+    <Content Include="js\LinkLink\kinetic-v4.1.2.min.js" />
+    <Content Include="js\LinkLink\preloadjs-0.2.0.min.js" />
+    <Content Include="js\LinkLink\soundjs-0.3.0.min.js" />
+    <Content Include="sounds\bgmusic.mp3" />
+    <Content Include="sounds\button.mp3" />
     <None Include="LinkLink_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

@@ -3,18 +3,35 @@
 <head>
 <meta charset="utf-8">
 <title>Untitled Document</title>
+<script src="js/LinkLink/soundjs-0.3.0.min.js"></script>
+<script src="js/LinkLink/kinetic-v4.1.2.min.js"></script>
+<script src="js/LinkLink/preloadjs-0.2.0.min.js"></script>
 </head>
 
 <body>
 	<div id="gameDiv"></div>
-	<script src="js/LinkLink/kinetic-v4.1.2.min.js"></script>
     <script>
+		
+		// Testeing of createJS here
+		var manifest = [
+			{src:"sounds/button.mp3", id:"button1"},
+			{src:"sounds/bgmusic.mp3", id:"bgmusic"}
+		];
+		var preload = new createjs.PreloadJS();
+		preload.installPlugin(createjs.SoundJS);
+		preload.onComplete = function(event){
+			createjs.SoundJS.play("bgmusic",createjs.SoundJS.INTERRUPT_NONE,0,0,0,1);
+		};
+		preload.loadManifest(manifest, true);		
+		
+		// KineticJS
 		var stage = new Kinetic.Stage({
 			container: "gameDiv",
 			width: 500,
 			height: 500
 		});
 		var layer = new Kinetic.Layer();
+		var bglayer = new Kinetic.Layer();
 		var messagelayer = new Kinetic.Layer();
 		
 		var grid = [
@@ -25,14 +42,15 @@
 			[3,1,0,1,1]
 		];
 		
-		var prevRect = null;
 		var row = grid.length;	// Number of Rows
 		var col = grid[0].length; // Numbers of Columns
 		var width = stage.getWidth()  / col;	// Single Cell Width
 		var height = stage.getHeight() / row;	// Single Cell Height
+		var path = [];
 		
 		var rectArr = new Array();
-		
+		var soundinstance = null;
+		var isMouseDown = false;
 		for (r=0; r<row; ++r){
 			rectArr[r] = new Array();
 			for (c=0; c<col; ++c){
@@ -43,25 +61,43 @@
 					height: height,
 					stroke: "black",
 					strokeWidth: 1,
-					draggable: false
+					opacity: 0.35
 				});
 				
-				rect.on("mousemove", function(){
+				rect.on("mousedown", function(event){
+					if (soundinstance == null)
+						soundinstance = createjs.SoundJS.play("button1", createjs.SoundJS.INTERRUPT_NONE,0,0,0,1);
+					else
+						soundinstance.play(createjs.SoundJS.INTERRUPT_ANY,0,0,0,1);
+					isMouseDown = true;
+					path[path.length] = this;
+					drawGrid(this);
+				});
+				
+				rect.on("mouseover", function(event){
+					if (isMouseDown){
+						soundinstance.play(createjs.SoundJS.INTERRUPT_ANY,0,0,0,1);
+						path[path.length] = this;
+						drawGrid(this);
+					}
+				});
+				
+				rect.on("click", function(event){
+					if (path.length > 1){
+						soundinstance.play(createjs.SoundJS.INTERRUPT_ANY,0,0,0,1);
+						for(i=0;i<path.length;++i)
+							path[i].hide();
+						path = [];
+					}
+					isMouseDown = false;
+					drawGrid(this);
+				});
+								
+				rect.on("mousemove", function(event){
 					var mousePos = stage.getMousePosition();
 					writeMessage(messagelayer, 'x: ' + mousePos.x + ', y: ' + mousePos.y);
 				});
-				
-				rect.on("click", function(){
-					if (prevRect == null){
-						prevRect = this;	
-					} else {
-						prevRect.setOpacity(0);
-						this.setOpacity(0);
-						prevRect = null;
-					}
-					drawGrid(this);	
-				});
-				
+		
 				rectArr[r][c] = rect;
 				layer.add(rect);
 			}
@@ -77,12 +113,12 @@
 						case 1: rectArr[r][c].setFill("yellow"); break;
 						case 2: rectArr[r][c].setFill("purple"); break;
 						case 3: rectArr[r][c].setFill("red"); break;
-						default: rectArr[r][c].setFill("white"); break;
+						default: rectArr[r][c].setFill("blue"); break;
 					}
 				}
 			}
 			if (selRect != null){
-				selRect.setFill("green");
+				selRect.setOpacity(1);
 			}
 			layer.draw();
 		}
@@ -94,8 +130,15 @@
 			context.fillStyle = 'black';
 			context.fillText(message, 10, 25);
 		}
-		
-		stage.add(layer);
+
+		var img = new Image();
+		img.src = "images/table.jpg";
+		var bgImg = new Kinetic.Image({
+			image: img
+		});
+		bglayer.add(bgImg);
+		stage.add(bglayer);
+		stage.add(layer);	
 		stage.add(messagelayer);		
 	</script>
 </body>
