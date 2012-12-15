@@ -42,21 +42,18 @@ $(function()
 			var cardId = matchingGame.grid[i][j];
 			if (cardId >= 0)
 			{
-				card = $('<div class="card"><div class="face front"></div></div>'); 
-				$("#cards").append (card);
+				card = $('<div class="card"></div>'); 
+				$("#cardBoard").append (card);
 				
-				card.css({
-					"left" : (card.width()  + spacingBetCards) * j,
-					"top"  : (card.height() + spacingBetCards) * i
-				});
-				
+                
 				// Get a pattern from the shuffled deck.
 				var pattern = matchingGame.deck.pop();
 				
 				// Visually apply the pattern on the card's back side.
 				// the pattern value is actually a CSS class with the
 				// corrisponding playing card graphic.
-				card.find(".front").addClass(pattern);
+			    //card.find(".front").addClass(pattern);
+				card.addClass(pattern);
 				
 				// Embed the pattern data into the DOM element.
 				card.attr("data-pattern", pattern);
@@ -66,9 +63,6 @@ $(function()
 			}
 		}
 	}
-	
-	$("#cards").css({"width"  : matchingGame.grid[0].length * card.width() + (matchingGame.grid[0].length - 1) * spacingBetCards, 
-					 "height" : matchingGame.grid.length * card.height() + (matchingGame.grid.length - 1) * spacingBetCards});
 });
 
 function selectCard() 

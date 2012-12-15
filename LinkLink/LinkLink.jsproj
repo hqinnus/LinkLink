@@ -36,6 +36,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>6e4b4777-5b22-4407-b6a3-a83511fc104e</ProjectGuid>
+    <ExpressionBlendVersion>5.0.31017.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0'">
     <VisualStudioVersion>11.0</VisualStudioVersion>
@@ -53,9 +54,10 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="css\default2.css" />
     <Content Include="css\LinkLink\matchgame.css" />
     <Content Include="default.html" />
-    <Content Include="GridDetection_KineticJS.html" />
+    <Content Include="default2.html" />
     <Content Include="images\bg.jpg" />
     <Content Include="images\deck.png" />
     <Content Include="images\logo.png" />
@@ -65,6 +67,7 @@
     <Content Include="images\table.jpg" />
     <Content Include="js\default.js" />
     <Content Include="css\default.css" />
+    <Content Include="js\default2.js" />
     <Content Include="js\LinkLink\html5games.matchgame.js" />
     <Content Include="js\LinkLink\jquery-1.6.min.js" />
     <Content Include="js\LinkLink\kinetic-v4.1.2.min.js" />

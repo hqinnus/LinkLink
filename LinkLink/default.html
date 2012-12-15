@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <title>LinkLink</title>
     <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,bold&subset=latin' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="css/LinkLink/matchgame.css" />
 
     <!-- WinJS references -->
     <link href="//Microsoft.WinJS.1.0/css/ui-dark.css" rel="stylesheet" />
@@ -15,20 +14,22 @@
     <link href="/css/default.css" rel="stylesheet" />
     <script src="/js/default.js"></script>
 </head>
-<body>
-	<header>
+<body style="display: -ms-grid; -ms-grid-rows: 30px 100px 1fr 30px; -ms-grid-columns: 30px 300px 1fr 30px;">
+	<header id="title">
+		LinkLink Game
 	</header>
 	
 	<section id="game">
-		<div id="cards">			
+		<div id="cardBoard">			
 								
-		</div> <!-- #cards -->
-	</section> <!-- #game -->
-	
-	<footer>
+		</div>
+	</section>
+	<footer id="footer">
+		This game is a demo prototype.
 	</footer>
 
     <script src="js/LinkLink/jquery-1.6.min.js"></script>
     <script src="js/LinkLink/html5games.matchgame.js"></script>
+    <link rel="stylesheet" href="css/LinkLink/matchgame.css" />
 </body>
 </html>
